@@ -1,6 +1,6 @@
 # LasS0 <!-- omit in toc -->
 
-![Board](img/board.png)
+![Board](img/Nice.png)
 
 # Contents <!-- omit in toc -->
 
