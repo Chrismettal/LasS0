@@ -2282,7 +2282,7 @@
   (gr_text "+5V" (at 140.89 71.806 90) (layer "F.SilkS") (tstamp 67725ad9-fa21-4848-8a0e-e0644ef31cfd)
     (effects (font (size 1.5 1.5) (thickness 0.25)))
   )
-  (gr_text "HASH" (at 160.276 64.594 90) (layer "F.SilkS") (tstamp 692fd214-437a-4a13-9be6-2f9ba240b057)
+  (gr_text "c68aac5" (at 161.8 65.356 90) (layer "F.SilkS") (tstamp 692fd214-437a-4a13-9be6-2f9ba240b057)
     (effects (font (size 1 1) (thickness 0.15)))
   )
   (gr_text "GND" (at 145.97 128.602 90) (layer "F.SilkS") (tstamp 69447972-c4c2-49b7-b1e4-6040066dea58)
