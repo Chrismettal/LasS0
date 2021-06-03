@@ -2,11 +2,23 @@
 
 ![Board](img/Nice.png)
 
+# WARNING <!-- omit in toc -->
+
+This board is not yet tested and is currently being manufactured. This information will be removed once the PCB is tested working. The 3D printed case will be designed once the boards arrive.
+
+
 # Contents <!-- omit in toc -->
 
+- [Buying](#buying)
 - [What is this?](#what-is-this)
 - [Usage](#usage)
 - [3D printing](#3d-printing)
+
+# Buying
+
+Keep an eye out on the Tindie store, where leftover boards will be sold!
+
+<a href="https://www.tindie.com/stores/binary-6/?ref=offsite_badges&utm_source=sellers_Chrismettal&utm_medium=badges&utm_campaign=badge_medium"><img src="https://d2ss6ovg47m0r5.cloudfront.net/badges/tindie-mediums.png" alt="I sell on Tindie" width="150" height="78"></a>
 
 # What is this?
 
