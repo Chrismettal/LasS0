@@ -407,8 +407,8 @@
       "idf": "",
       "netlist": "",
       "specctra_dsn": "",
-      "step": "",
-      "vrml": ""
+      "step": "3D/LasS0.step",
+      "vrml": "3D/LasS0.wrl"
     },
     "page_layout_descr_file": ""
   },
