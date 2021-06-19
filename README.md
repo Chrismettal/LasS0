@@ -44,7 +44,7 @@ One of the upper jumpers needs to be set to choose between `Direct` and `Inverte
 A 5v logic level impulse input such as the output of a TCRT5000 can be connected to `J3/J4` at `D0`, which is then output to `J2` as an `S0` compatible open collector signal through the optocoupler.
 
 If you are connecting the S0 output to certain devices that require high logic level input like 12v and can't directly deal with open collector S0 outputs, you might choose to set the lower two jumpers to put a pullup to `VCC` on `S0+` and connect `GND` to `S0-`. Combined with the `Inverted` output you will get your input pulses converted to VCC output pulses. (This is required for Loxone inputs for example, which is what I am using this for).
-
+#
 # Performance
 
 ![MeasurementMethod](img/CRO.jpg)
@@ -83,4 +83,6 @@ The following measurements / demonstrations were done with the S8050 input stage
 
 Considering this is meant to go inside your electrical cabinet it is best printed in PC or ABS and not PLA.
 
-Case still being designed.
+Finished GCode for Prusa MK3s printers are also found in the 3D printing folder.
+
+![3D](img/3D.png)
