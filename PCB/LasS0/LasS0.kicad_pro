@@ -383,7 +383,8 @@
           "Net-(C3-Pad1)",
           "Net-(C7-Pad1)",
           "Net-(D3-Pad2)",
-          "Net-(Q2-Pad3)",
+          "Net-(JP1_D1-Pad1)",
+          "Net-(R6-Pad2)",
           "Net-(R8-Pad1)",
           "Net-(R9-Pad1)",
           "VCC"
