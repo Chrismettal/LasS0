@@ -4,8 +4,7 @@
 
 # WARNING <!-- omit in toc -->
 
-This board is not yet tested and is currently being manufactured. This information will be removed once the PCB is tested working. The 3D printed case will be designed once the boards arrive.
-
+The current version of the PCB is tested working, but uses an BJT input stage which takes around 6mA to drive. The device was tested with a FET input stage and optional pullups/pulldowns on the input which does not require such a high driving current and therefor performs better with TCRT5000 modules. The PCB files are currently being updated with the new input stage.
 
 # Contents <!-- omit in toc -->
 
@@ -44,14 +43,14 @@ One of the upper jumpers needs to be set to choose between `Direct` and `Inverte
 A 5v logic level impulse input such as the output of a TCRT5000 can be connected to `J3/J4` at `D0`, which is then output to `J2` as an `S0` compatible open collector signal through the optocoupler.
 
 If you are connecting the S0 output to certain devices that require high logic level input like 12v and can't directly deal with open collector S0 outputs, you might choose to set the lower two jumpers to put a pullup to `VCC` on `S0+` and connect `GND` to `S0-`. Combined with the `Inverted` output you will get your input pulses converted to VCC output pulses. (This is required for Loxone inputs for example, which is what I am using this for).
-#
+
 # Performance
 
 ![MeasurementMethod](img/CRO.jpg)
 
-The device was tested, on a 24 V supply with 5 V test pulses from a function gen as well as the TCRT5000.
+The device was tested, on a 23 V supply with 5 V test pulses from a function gen as well as the TCRT5000.
 
-The current version that was tested needs around 6mA of current on the DO input to drive the input stage. My TCRT5000 module is only able to deliver about 1mA somehow so the channel 1 voltage with the TCRT5000 drops significantly but the output is still fully driven. Currently ordering a new TCRT5000 to see why the comparator can only drive such low currents. At the same time I will switch out the S8050 transistors to AO3400A MOSFETs to greatly raise the input impedance of DO. 
+The current version that was tested needs around 6mA of current on the DO input to drive the input stage. My TCRT5000 module is only able to deliver about 1mA somehow so the channel 1 voltage with the TCRT5000 drops significantly but the output is still fully driven. Currently ordering some new TCRT5000 to see why the comparator can only drive such low currents. At the same time I will switch out the S8050 transistors to AO3400A MOSFETs to greatly raise the input impedance of DO. 
 
 The following measurements / demonstrations were done with the S8050 input stage, PCB revision 38b7723, with the S0 pullup jumpers set:
 
