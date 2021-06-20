@@ -82,6 +82,11 @@ The following measurements / demonstrations were done with the S8050 input stage
 
 Considering this is meant to go inside your electrical cabinet it is best printed in PC or ABS and not PLA.
 
-Finished GCode for Prusa MK3s printers are also found in the 3D printing folder.
+There is a 3D printable DIN rail case for the LasS0 PCB itself, as well as a readhead to attach a TCRT5000 module to EMH eHZ readers (which is what I am using this whole project for).
 
-![3D](img/3D.png)
+The case incorporates DIN rail clamps, remixed from a cable clamp by mdkendall, [check it out here!](https://www.thingiverse.com/thing:2613804).
+
+![3DCase](img/3D.png)
+
+![3DHead](img/3Dhead.png)
+
