@@ -11,6 +11,7 @@ The current version of the PCB is tested working, but uses an BJT input stage wh
 - [Buying](#buying)
 - [What is this?](#what-is-this)
 - [Usage](#usage)
+- [Code](#code)
 - [Performance](#performance)
     - [0-5V DC pulses, 50Hz, 5ms pulse length](#0-5v-dc-pulses-50hz-5ms-pulse-length)
     - [Rise time 33µs, Fall time 1µs](#rise-time-33µs-fall-time-1µs)
@@ -34,6 +35,9 @@ This is a logic level impulse to S0 converter/interface board. It is used to con
 
 ![BoardRealKit](img/BoardKit.jpg)
 
+There are 'two versions' of the board included. LasS0_FET uses a FET input stage. The included gerbers are NOT tested and probably won't be. The initial NPN input stage version however was ordered and tested working.
+The other, more recent version uses an AVR microcontroller as the input stage, specifically providing pulse extension and pulse division between the input and the S0 output. This was neccessary for me since my electricity meter outputs 10,000 imp/kWh with only a pulselength of about 7ms, which my smart home controller could not read. It required pulses of at least 15ms to reliably detect every pulse. The AVR counts a set number of input pulses and outputs a fixed output pulse once enough inputs have been counted. In my case I divide 10:1 and output a 30ms pulse after every 10 input pulses, changing the total resolution of my specific meter to 1,000 imp/kwh
+
 # Usage
 
 The device needs to be powered through `J1` with 12-24v.
@@ -43,6 +47,10 @@ One of the upper jumpers needs to be set to choose between `Direct` and `Inverte
 A 5v logic level impulse input such as the output of a TCRT5000 can be connected to `J3/J4` at `D0`, which is then output to `J2` as an `S0` compatible open collector signal through the optocoupler.
 
 If you are connecting the S0 output to certain devices that require high logic level input like 12v and can't directly deal with open collector S0 outputs, you might choose to set the lower two jumpers to put a pullup to `VCC` on `S0+` and connect `GND` to `S0-`. Combined with the `Inverted` output you will get your input pulses converted to VCC output pulses. (This is required for Loxone inputs for example, which is what I am using this for).
+
+# Code
+
+- in progress
 
 # Performance
 
