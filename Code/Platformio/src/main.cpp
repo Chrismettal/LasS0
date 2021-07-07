@@ -39,7 +39,9 @@
 #endif
 
 #define SERIAL_BAUD               115200      // Serial monitor baud rate
-#define DIVIDER_RATIO             10          // Number of edges to detect until new edge is output 
+#ifndef DIVIDER_RATIO
+  #define DIVIDER_RATIO             10        // Number of edges to detect until new edge is output 
+#endif
 #define OUTPUT_PULSE_LENGTH_uS    30000       // Output pulse length in microseconds
 
 // ESP-Hiro Pins
@@ -52,12 +54,14 @@
 #ifdef BOARD_UNO
   #define PIN_INPUT          2          // GPIO for input pulse, PB0, PCINT0
   #define PIN_OUTPUT         4          // PORTNUM for output pulse, PB4, D12
+  #define PORT_OUTPUT       PORTB       // PORT for output pulse
+
 #endif
 
 // Attiny Pins
 #ifdef BOARD_TINY
-  #define PIN_INPUT          2          // GPIO for input pulse, PB0, PCINT0
-  #define PIN_OUTPUT         4          // PORTNUM for output pulse, PB4, D12
+  #define PIN_INPUT          2          // PORTPIN of port B for input pulse
+  #define PIN_OUTPUT         2          // PORTPIN of port A for output pulse
 #endif
 
 /*-------------------------------------------------------------------*/
@@ -112,20 +116,36 @@ void setup() {
   PRINTLN(PIN_INPUT);
   PRINT("Output: ");
   PRINTLN(PIN_OUTPUT);
+
   #ifdef BOARD_ESP
     pinMode(PIN_OUTPUT, OUTPUT);
     pinMode(PIN_INPUT, INPUT);
-  #else
-    #ifdef BOARD_UNO
-      pinMode(12, OUTPUT);
-      pinMode(PIN_INPUT, INPUT_PULLUP);
-    #endif
   #endif
+  #ifdef BOARD_UNO
+    pinMode(12, OUTPUT);
+    pinMode(PIN_INPUT, INPUT_PULLUP);
+  #endif
+  #ifdef BOARD_TINY
+    // PORT A
+    DDRA = (1 << PIN_OUTPUT); // 1 = Output
+    // PORT B
+    PORTB = (1<< PIN_INPUT);  // Pullup
+    DDRA =  (0<< PIN_INPUT);  // 0 = Input
+  #endif
+
 
   // interrupt attach
   PRINT("Attaching interrupt to: ");
   PRINTLN(PIN_INPUT);
-  attachInterrupt(digitalPinToInterrupt(PIN_INPUT), OutISR, FALLING);
+  #ifdef BOARD_ESP
+    attachInterrupt(digitalPinToInterrupt(PIN_INPUT), OutISR, FALLING);
+  #endif
+  #ifdef BOARD_UNO
+    attachInterrupt(digitalPinToInterrupt(PIN_INPUT), OutISR, FALLING);
+  #endif
+  #ifdef BOARD_TINY
+    attachInterrupt(INT0, OutISR, FALLING);
+  #endif
 }
 
 
@@ -140,9 +160,9 @@ void loop() {
     PRINT(OUTPUT_PULSE_LENGTH_uS);
     PRINTLN(" microseconds");
     // reset counter, start pulse flag
-    EdgesFound  = 0;
-    GoPulse     = HIGH;
-    PulseStartTime = micros();
+    EdgesFound      = 0;
+    GoPulse         = HIGH;
+    PulseStartTime  = micros();
   }
 
   // if pulse flag is high
@@ -161,10 +181,10 @@ void loop() {
     digitalWrite(PIN_OUTPUT, !GoPulse);  // ESPs digitalWrite is fast enough to not use ports directly
   #endif
   #ifdef BOARD_UNO
-    PORTB = (1 << PIN_OUTPUT);  // use actual pin, avr is much slower with digitalWrite
+    PORT_OUTPUT = (1 << PIN_OUTPUT);
   #endif
   #ifdef BOARD_TINY
-    PORTB = (1 << PIN_OUTPUT);  // use actual pin, avr is much slower with digitalWrite
+    PORTA = (1 << PIN_OUTPUT);
   #endif
 
 }// end loop
