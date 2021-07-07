@@ -9,11 +9,14 @@
  * EMH eHZ delivers 10.000 imp/kWh, after conversion we get 1000 imp/kwh 
  */
 
+#warning TODO: fully move away from arduino framework, only use bare C, more speed, more better
+#warning TODO: remove debugging boards ESP and UNO as only the Attiny will be used
+
 /*-------------------------------------------------------------------*/
 /*------------------------Project defines----------------------------*/
 /*-------------------------------------------------------------------*/
 #ifndef BOARD_TINY
-  #define DEBUG
+  #define DEBUG       // enabled serial prints, attiny environment does not have serial out
 #endif
 /*-------------------------------------------------------------------*/
 /*--------------------------Includes---------------------------------*/
@@ -21,7 +24,7 @@
 
 #include <Arduino.h>
 #ifdef BOARD_ESP
-  #include <ESP8266WiFi.h>
+  #include <ESP8266WiFi.h>  // to turn off WiFi for ESP chip
 #endif
 
 
@@ -44,13 +47,13 @@
 #endif
 #define OUTPUT_PULSE_LENGTH_uS    30000       // Output pulse length in microseconds
 
-// ESP-Hiro Pins
+// ESP-Hiro ESP8266 Pins
 #ifdef BOARD_ESP
   #define PIN_INPUT           13          // GPIO for input pulse
   #define PIN_OUTPUT          12          // GPIO for output pulse
 #endif
 
-// Atmega Pins
+// Atmega328 Pins
 #ifdef BOARD_UNO
   #define PIN_INPUT          2          // GPIO for input pulse, PB0, PCINT0
   #define PIN_OUTPUT         4          // PORTNUM for output pulse, PB4, D12
@@ -58,7 +61,7 @@
 
 #endif
 
-// Attiny Pins
+// Attiny24a Pins
 #ifdef BOARD_TINY
   #define PIN_INPUT          2          // PORTPIN of port B for input pulse
   #define PIN_OUTPUT         2          // PORTPIN of port A for output pulse
@@ -68,9 +71,9 @@
 /*-----------------------------Vars----------------------------------*/
 /*-------------------------------------------------------------------*/
 
-uint8_t         EdgesFound;                       // Number of edges found since last flush (EdgesFound >= DIVIDER_RATIO)
-unsigned long   PulseStartTime = 0;               // microseconds at which output pulse was started
-bool            GoPulse;                          // set when enough edges were found, starts output pulse time
+volatile uint8_t  EdgesFound;                       // Number of edges found since last flush (EdgesFound >= DIVIDER_RATIO)
+unsigned long     PulseStartTime = 0;               // microseconds at which output pulse was started
+bool              GoPulse;                          // set when enough edges were found, starts output pulse time
 
 /*-------------------------------------------------------------------*/
 /*------------------------------ISR----------------------------------*/
