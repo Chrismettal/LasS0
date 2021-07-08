@@ -18,6 +18,7 @@
 #ifndef BOARD_TINY
   #define DEBUG       // enabled serial prints, attiny environment does not have serial out
 #endif
+
 /*-------------------------------------------------------------------*/
 /*--------------------------Includes---------------------------------*/
 /*-------------------------------------------------------------------*/
@@ -133,7 +134,7 @@ void setup() {
     DDRA = (1 << PIN_OUTPUT); // 1 = Output
     // PORT B
     PORTB = (1<< PIN_INPUT);  // Pullup
-    DDRA =  (0<< PIN_INPUT);  // 0 = Input
+    DDRB =  (0<< PIN_INPUT);  // 0 = Input
   #endif
 
 
@@ -147,7 +148,7 @@ void setup() {
     attachInterrupt(digitalPinToInterrupt(PIN_INPUT), OutISR, FALLING);
   #endif
   #ifdef BOARD_TINY
-    attachInterrupt(INT0, OutISR, FALLING);
+    attachInterrupt(0, OutISR, RISING);
   #endif
 }
 
@@ -184,10 +185,10 @@ void loop() {
     digitalWrite(PIN_OUTPUT, !GoPulse);  // ESPs digitalWrite is fast enough to not use ports directly
   #endif
   #ifdef BOARD_UNO
-    PORT_OUTPUT = (1 << PIN_OUTPUT);
+    PORT_OUTPUT = (GoPulse << PIN_OUTPUT);
   #endif
   #ifdef BOARD_TINY
-    PORTA = (1 << PIN_OUTPUT);
+    PORTA = (!GoPulse << PIN_OUTPUT);
   #endif
 
 }// end loop
