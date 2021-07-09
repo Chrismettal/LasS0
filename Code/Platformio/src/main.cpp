@@ -15,13 +15,14 @@
 /*--------------------------Includes---------------------------------*/
 /*-------------------------------------------------------------------*/
 
-#include <Arduino.h>
+#include <avr/io.h>
+#include <avr/interrupt.h>
 
 /*-------------------------------------------------------------------*/
 /*--------------------------Settings---------------------------------*/
 /*-------------------------------------------------------------------*/
 
-#define OUTPUT_PULSE_LENGTH_uS      30000       // Output pulse length in microseconds
+#define OUTPUT_PULSE_LENGTH_mS      30          // Output pulse length in milliseconds
 
 // Attiny24a Pins
 #define PIN_INPUT                   2           // PORTPIN of port B for input pulse
@@ -33,15 +34,18 @@
 /*-------------------------------------------------------------------*/
 
 volatile uint8_t  EdgesFound;                   // Number of edges found since last flush (EdgesFound >= DIVIDER_RATIO)
-unsigned long     PulseStartTime = 0;           // microseconds at which output pulse was started
-bool              GoPulse;                      // set when enough edges were found, starts output pulse time
+volatile uint32_t millis;                       // Milliseconds since bootup
+
+uint32_t          PulseStartTime;               // Milliseconds at which output pulse was started
+bool              GoPulse;                      // Set when enough edges were found, starts output pulse time
 
 /*-------------------------------------------------------------------*/
 /*------------------------------ISR----------------------------------*/
 /*-------------------------------------------------------------------*/
 
-void OutISR() {
-  EdgesFound += 1;
+//----------External interrupt 0 ----------
+ISR (INT0_vect){
+  EdgesFound++;
 }
 
 /*-------------------------------------------------------------------*/
@@ -57,29 +61,33 @@ int main() {
   PORTB = (1 << PIN_INPUT);   // Pullup
 
   //--------Interrupt attach---------
-  attachInterrupt(0, OutISR, RISING);
+  GIMSK = (1 << INT0);                  // enable INT0 mask
+  MCUCR = (1 << ISC00) | (1 << ISC01);  // enable INT0 rising edge detection
+  sei();
 
 /*-------------------------------------------------------------------*/
-/*--------------------------while(HIGH)------------------------------*/
+/*----------------------------while(1)-------------------------------*/
 /*-------------------------------------------------------------------*/
-  while(HIGH){
+  while(1){
     // if enough pulses are found when pulse flag is low
     if (!GoPulse && (EdgesFound >= DIVIDER_RATIO)) {
       // reset counter, start pulse flag
       EdgesFound      = 0;
-      GoPulse         = HIGH;
-      PulseStartTime  = micros();
+      GoPulse         = 1;
+      PulseStartTime  = millis;
     }
 
     // if pulse flag is high
     if (GoPulse) {
-      // reset once time is elapsed
-      if (micros() >= PulseStartTime + OUTPUT_PULSE_LENGTH_uS) {
-        GoPulse = LOW;
+      // reset once time is elapsed or timer overflew, might be shorter than OUTPUT_PULSE_LENGTH_mS during overflow but doesn't matter. 
+      // millis < PulseStartTime happens once every ~50 days only if overflow happens while GoPulse is high which is incredibly rare.
+      if ((millis >= PulseStartTime + OUTPUT_PULSE_LENGTH_mS) ||
+          (millis <  PulseStartTime)) {
+        GoPulse = 0; 
       }
     }
 
     // output pulse flag
     PORTA = (!GoPulse << PIN_OUTPUT);
-  }// end while(HIGH)
-}
+  }// end while(1)
+}// end main
