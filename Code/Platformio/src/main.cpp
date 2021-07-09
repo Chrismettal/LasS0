@@ -9,8 +9,6 @@
  * EMH eHZ delivers 10.000 imp/kWh, after conversion we get 1000 imp/kwh 
  */
 
-#warning TODO: fully move away from arduino framework, only use bare C, more speed, more better
-
 /*-------------------------------------------------------------------*/
 /*--------------------------Includes---------------------------------*/
 /*-------------------------------------------------------------------*/
