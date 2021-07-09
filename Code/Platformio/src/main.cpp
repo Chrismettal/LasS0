@@ -89,6 +89,22 @@ int main() {
       }
     }
 
+    /*
+      With timer:
+
+      if (WhateverTimerElapsedFlag && (EdgesFound >= DIVIDER_RATIO)) {
+        EdgesFound      = 0;
+        
+        TCNTwhatever              = 0   reset timer for new count
+        WhateverTimerElapsedFlag  = 1   reset timer flag by writing logic 1 in register
+      }
+
+      Output TimerElapsedFlag directly. Will generate a single pulse at bootup until timer is elapsed once,
+      but as long as the bit stays HIGH until we clear it manually, we should only output a pulse while timer is running and the flag is low
+      PORTA = (WhateverTimerElapsedFlag << PIN_OUTPUT);
+
+    */
+
     // output pulse flag
     PORTA = (!GoPulse << PIN_OUTPUT);
   }// end while(1)

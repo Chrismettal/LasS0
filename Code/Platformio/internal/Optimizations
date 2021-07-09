@@ -1,3 +1,7 @@
-#fbfbdb4 - with arduino, tiny_10
+#fbfbdb4 - with Arduino, tiny_10
 RAM:   [=         ]  13.3% (used 17 bytes from 128 bytes)
 Flash: [===       ]  27.6% (used 566 bytes from 2048 bytes)
+
+b7a0d91 - without Arduino, tiny_10, missing "millis" implementation, to be replaced with timer compare
+RAM:   [=         ]   7.8% (used 10 bytes from 128 bytes)
+Flash: [=         ]  14.0% (used 286 bytes from 2048 bytes)
