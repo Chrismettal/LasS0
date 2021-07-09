@@ -22,7 +22,7 @@
 /*--------------------------Settings---------------------------------*/
 /*-------------------------------------------------------------------*/
 
-#define OUTPUT_PULSE_LENGTH_mS      30          // Output pulse length in milliseconds
+#define OUTPUT_PULSE_LENGTH_mS      30          // Output pulse length in milliseconds, max 500ms
 
 // Attiny24a Pins
 #define PIN_INPUT                   2           // PORTPIN of port B for input pulse
@@ -61,51 +61,39 @@ int main() {
   DDRB  = (0 << PIN_INPUT);   // 0 = Input
   PORTB = (1 << PIN_INPUT);   // Pullup
 
+  //--------Timer settings---------
+  /*
+  F_Timer   = F_CPU / Prescaler
+  F_Timer   = 8 MHz / 64      = 125 KHz
+  T_Tick    = 1 s / 125 KHz   = 8 µs
+  T_Max     = 8 µs X 65536   = 0.524 288 s
+
+  Example OCR1A value:
+  30ms / 8 µs = 3750 ticks
+  */
+
+  TCCR1B |= (1 << CS10) | (1 << CS11);      // set clock source /64 prescaler, starting timer
+  OCR1A  = OUTPUT_PULSE_LENGTH_mS / 0.008;  // set compare window to number of timer ticks required to hit OUTPUT_PULSE_LENGTH_mS
+
   //--------Interrupt attach---------
   GIMSK = (1 << INT0);                  // enable INT0 mask
   MCUCR = (1 << ISC00) | (1 << ISC01);  // enable INT0 rising edge detection
   sei();
 
-
 /*-------------------------------------------------------------------*/
 /*----------------------------while(1)-------------------------------*/
 /*-------------------------------------------------------------------*/
   while(1){
-    // if enough pulses are found when pulse flag is low
-    if (!GoPulse && (EdgesFound >= DIVIDER_RATIO)) {
-      // reset counter, start pulse flag
+    // if enough pulses are found when timer flag is HIGH (Timer not already running)
+    if ((TIFR1 & (1<<OCF1A)) && (EdgesFound >= DIVIDER_RATIO)) {
       EdgesFound      = 0;
-      GoPulse         = 1;
-      PulseStartTime  = millis;
+      
+      TCNT1           = 0;    // reset timer value
+      TIFR1 |= (1 << OCF1A);  // clear timer elapsed flag and therefore set S0 output HIGH
     }
 
-    // if pulse flag is high
-    if (GoPulse) {
-      // reset once time is elapsed or timer overflew, might be shorter than OUTPUT_PULSE_LENGTH_mS during overflow but doesn't matter. 
-      // millis < PulseStartTime happens once every ~50 days only if overflow happens while GoPulse is high which is incredibly rare.
-      if ((millis >= PulseStartTime + OUTPUT_PULSE_LENGTH_mS) ||
-          (millis <  PulseStartTime)) {
-        GoPulse = 0; 
-      }
-    }
-
-    /*
-      With timer:
-
-      if (WhateverTimerElapsedFlag && (EdgesFound >= DIVIDER_RATIO)) {
-        EdgesFound      = 0;
-        
-        TCNTwhatever              = 0   reset timer for new count
-        WhateverTimerElapsedFlag  = 1   reset timer flag by writing logic 1 in register
-      }
-
-      Output TimerElapsedFlag directly. Will generate a single pulse at bootup until timer is elapsed once,
-      but as long as the bit stays HIGH until we clear it manually, we should only output a pulse while timer is running and the flag is low
-      PORTA = (WhateverTimerElapsedFlag << PIN_OUTPUT);
-
-    */
-
-    // output pulse flag
-    PORTA = (!GoPulse << PIN_OUTPUT);
+    //Output TimerElapsedFlag directly. Will generate a single pulse at bootup until timer is elapsed once,
+    //but as long as the bit stays HIGH until we clear it manually, we should only output a pulse while timer is running and the flag is low
+    PORTA = ((TIFR1 & (1<<OCF1A)) << PIN_OUTPUT);
   }// end while(1)
 }// end main
