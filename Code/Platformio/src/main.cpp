@@ -10,12 +10,6 @@
  */
 
 #warning TODO: fully move away from arduino framework, only use bare C, more speed, more better
-#warning TODO: remove debugging boards ESP and UNO as only the Attiny will be used
-
-/*-------------------------------------------------------------------*/
-/*------------------------Project defines----------------------------*/
-/*-------------------------------------------------------------------*/
-
 
 /*-------------------------------------------------------------------*/
 /*--------------------------Includes---------------------------------*/
@@ -53,39 +47,39 @@ void OutISR() {
 /*-------------------------------------------------------------------*/
 /*-----------------------------Init----------------------------------*/
 /*-------------------------------------------------------------------*/
-void setup() {
-
+int main() {
+  
+  //----------Port Settings----------
   // PORT A
-  DDRA = (1 << PIN_OUTPUT); // 1 = Output
+  DDRA  = (1 << PIN_OUTPUT);  // 1 = Output
   // PORT B
-  DDRB =  (0<< PIN_INPUT);  // 0 = Input
-  PORTB = (1<< PIN_INPUT);  // Pullup
+  DDRB  = (0 << PIN_INPUT);   // 0 = Input
+  PORTB = (1 << PIN_INPUT);   // Pullup
 
-  // interrupt attach
+  //--------Interrupt attach---------
   attachInterrupt(0, OutISR, RISING);
-}
-
 
 /*-------------------------------------------------------------------*/
-/*-----------------------------while(1)----------------------------------*/
+/*--------------------------while(HIGH)------------------------------*/
 /*-------------------------------------------------------------------*/
-void loop() {
-  // if enough pulses are found when pulse flag is low
-  if (!GoPulse && (EdgesFound >= DIVIDER_RATIO)) {
-    // reset counter, start pulse flag
-    EdgesFound      = 0;
-    GoPulse         = HIGH;
-    PulseStartTime  = micros();
-  }
-
-  // if pulse flag is high
-  if (GoPulse) {
-    // reset once time is elapsed
-    if (micros() >= PulseStartTime + OUTPUT_PULSE_LENGTH_uS) {
-      GoPulse = LOW;
+  while(HIGH){
+    // if enough pulses are found when pulse flag is low
+    if (!GoPulse && (EdgesFound >= DIVIDER_RATIO)) {
+      // reset counter, start pulse flag
+      EdgesFound      = 0;
+      GoPulse         = HIGH;
+      PulseStartTime  = micros();
     }
-  }
 
-  // output pulse flag
-  PORTA = (!GoPulse << PIN_OUTPUT);
-}// end loop
+    // if pulse flag is high
+    if (GoPulse) {
+      // reset once time is elapsed
+      if (micros() >= PulseStartTime + OUTPUT_PULSE_LENGTH_uS) {
+        GoPulse = LOW;
+      }
+    }
+
+    // output pulse flag
+    PORTA = (!GoPulse << PIN_OUTPUT);
+  }// end while(HIGH)
+}
