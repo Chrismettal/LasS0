@@ -32,10 +32,6 @@
 /*-------------------------------------------------------------------*/
 
 volatile uint8_t  EdgesFound;                   // Number of edges found since last flush (EdgesFound >= DIVIDER_RATIO)
-volatile uint32_t millis;                       // Milliseconds since bootup
-
-uint32_t          PulseStartTime;               // Milliseconds at which output pulse was started
-bool              GoPulse;                      // Set when enough edges were found, starts output pulse time
 
 /*-------------------------------------------------------------------*/
 /*------------------------------ISR----------------------------------*/
@@ -45,7 +41,6 @@ bool              GoPulse;                      // Set when enough edges were fo
 ISR (INT0_vect){
   EdgesFound++;
 }
-
 
 /*-------------------------------------------------------------------*/
 /*-----------------------------Init----------------------------------*/
