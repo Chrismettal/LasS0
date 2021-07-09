@@ -16,7 +16,7 @@
 /*------------------------Project defines----------------------------*/
 /*-------------------------------------------------------------------*/
 #ifndef BOARD_TINY
-  #define DEBUG       // enabled serial prints, attiny environment does not have serial out
+  #define DEBUG                                 // enabled serial prints, attiny environment does not have serial out
 #endif
 
 /*-------------------------------------------------------------------*/
@@ -25,9 +25,8 @@
 
 #include <Arduino.h>
 #ifdef BOARD_ESP
-  #include <ESP8266WiFi.h>  // to turn off WiFi for ESP chip
+  #include <ESP8266WiFi.h>                      // to turn off WiFi for ESP chip
 #endif
-
 
 /*-------------------------------------------------------------------*/
 /*--------------------------Settings---------------------------------*/
@@ -42,39 +41,39 @@
   #define PRINTLN(...)
 #endif
 
-#define SERIAL_BAUD               115200      // Serial monitor baud rate
+#define SERIAL_BAUD                 115200      // Serial monitor baud rate
 #ifndef DIVIDER_RATIO
-  #define DIVIDER_RATIO             10        // Number of edges to detect until new edge is output 
+  #define DIVIDER_RATIO             10          // Number of edges to detect until new edge is output 
 #endif
-#define OUTPUT_PULSE_LENGTH_uS    30000       // Output pulse length in microseconds
+#define OUTPUT_PULSE_LENGTH_uS      30000       // Output pulse length in microseconds
 
 // ESP-Hiro ESP8266 Pins
 #ifdef BOARD_ESP
-  #define PIN_INPUT           13          // GPIO for input pulse
-  #define PIN_OUTPUT          12          // GPIO for output pulse
+  #define PIN_INPUT                 13          // GPIO for input pulse
+  #define PIN_OUTPUT                12          // GPIO for output pulse
 #endif
 
 // Atmega328 Pins
 #ifdef BOARD_UNO
-  #define PIN_INPUT          2          // GPIO for input pulse, PB0, PCINT0
-  #define PIN_OUTPUT         4          // PORTNUM for output pulse, PB4, D12
-  #define PORT_OUTPUT       PORTB       // PORT for output pulse
+  #define PIN_INPUT                 2           // GPIO for input pulse, PB0, PCINT0
+  #define PIN_OUTPUT                4           // PORTNUM for output pulse, PB4, D12
+  #define PORT_OUTPUT               PORTB       // PORT for output pulse
 
 #endif
 
 // Attiny24a Pins
 #ifdef BOARD_TINY
-  #define PIN_INPUT          2          // PORTPIN of port B for input pulse
-  #define PIN_OUTPUT         2          // PORTPIN of port A for output pulse
+  #define PIN_INPUT                   2         // PORTPIN of port B for input pulse
+  #define PIN_OUTPUT                  2         // PORTPIN of port A for output pulse
 #endif
 
 /*-------------------------------------------------------------------*/
 /*-----------------------------Vars----------------------------------*/
 /*-------------------------------------------------------------------*/
 
-volatile uint8_t  EdgesFound;                       // Number of edges found since last flush (EdgesFound >= DIVIDER_RATIO)
-unsigned long     PulseStartTime = 0;               // microseconds at which output pulse was started
-bool              GoPulse;                          // set when enough edges were found, starts output pulse time
+volatile uint8_t  EdgesFound;                   // Number of edges found since last flush (EdgesFound >= DIVIDER_RATIO)
+unsigned long     PulseStartTime = 0;           // microseconds at which output pulse was started
+bool              GoPulse;                      // set when enough edges were found, starts output pulse time
 
 /*-------------------------------------------------------------------*/
 /*------------------------------ISR----------------------------------*/
@@ -133,8 +132,8 @@ void setup() {
     // PORT A
     DDRA = (1 << PIN_OUTPUT); // 1 = Output
     // PORT B
-    PORTB = (1<< PIN_INPUT);  // Pullup
     DDRB =  (0<< PIN_INPUT);  // 0 = Input
+    PORTB = (1<< PIN_INPUT);  // Pullup
   #endif
 
 
