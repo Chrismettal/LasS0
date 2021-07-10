@@ -59,7 +59,7 @@ This directory contains  .elf and .hex files for every environment.
 
 The naming structure for the environments is as follows:
 
-`tinyW_XXX_Y_Z`
+`tinyWW_XXX_Y_Z`
 
 `W` = Divider ratio
 `X` = Output pulse length
