@@ -23,8 +23,8 @@
 /* defined via PlatformIO environment build flags
 #define DIVIDER_RATIO               1           // Divider ratio between input pulses and output pulses
 #define OUTPUT_PULSE_LENGTH_mS      30          // Output pulse length in milliseconds, max 500ms
-#define OUTPUT_CONFIG               1           // Inverted output if LOW, normal output if HIGH
-#define RISING_EDGE_INPUT                       // Rising edge input if set
+#define NORMAL_OUTPUT                           // normal output if set, inverted if unset
+#define RISING_EDGE_INPUT                       // Rising edge input if set, falling if unset
 */
 // Attiny24a Pins
 #define PIN_INPUT                   2           // PORTPIN of port B for input pulse
@@ -37,7 +37,7 @@
 
 volatile uint8_t  EdgesFound;                   // Number of edges found since last flush (EdgesFound >= DIVIDER_RATIO)
 
-bool              Output;
+bool              Output;                       // Output buffer to be shoved into the portpin
 
 /*-------------------------------------------------------------------*/
 /*------------------------------ISR----------------------------------*/
@@ -75,7 +75,13 @@ int main() {
 
   //--------Interrupt attach---------
   GIMSK   |= (1 << INT0);                     // enable INT0 mask
-  MCUCR   |= (1 << ISC00) | (1 << ISC01);     // enable INT0 rising edge detection
+
+  // switch between rising and falling edge input
+  #ifdef RISING_EDGE_INPUT
+    MCUCR   |= (1 << ISC00) | (1 << ISC01);   // enable INT0 rising edge detection
+  #else
+    MCUCR   |= (1 << ISC01);                  // enable INT0 falling edge detection
+  #endif
   sei();
 
 /*-------------------------------------------------------------------*/
@@ -93,6 +99,13 @@ int main() {
     //Output TimerElapsedFlag via a buffer. Will generate a single pulse at bootup until timer is elapsed once,
     //but as long as the bit stays HIGH until we clear it manually, we should only output a pulse while timer is running and the flag is low
     Output = (TIFR1 & (1 << OCF1A));
-    PORTA = (Output << PIN_OUTPUT);
+
+    // switch between normal and inverted output
+    #ifdef NORMAL_OUTPUT
+      PORTA =  ( Output << PIN_OUTPUT);
+    #else
+      PORTA =  (!Output << PIN_OUTPUT);
+    #endif
+
   }// end while(1)
 }// end main
