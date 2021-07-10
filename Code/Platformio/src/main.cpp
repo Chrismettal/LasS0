@@ -20,8 +20,12 @@
 /*--------------------------Settings---------------------------------*/
 /*-------------------------------------------------------------------*/
 
+/* defined via PlatformIO environment build flags
+#define DIVIDER_RATIO               1           // Divider ratio between input pulses and output pulses
 #define OUTPUT_PULSE_LENGTH_mS      30          // Output pulse length in milliseconds, max 500ms
-
+#define OUTPUT_CONFIG               1           // Inverted output if LOW, normal output if HIGH
+#define RISING_EDGE_INPUT                       // Rising edge input if set
+*/
 // Attiny24a Pins
 #define PIN_INPUT                   2           // PORTPIN of port B for input pulse
 #define PIN_OUTPUT                  2           // PORTPIN of port A for output pulse
@@ -46,13 +50,12 @@ ISR (INT0_vect){
 /*-----------------------------Init----------------------------------*/
 /*-------------------------------------------------------------------*/
 int main() {
-  
   //----------Port Settings----------
   // PORT A
   DDRA  = (1 << PIN_OUTPUT);  // 1 = Output
   // PORT B
-  DDRB  = (0 << PIN_INPUT);   // 0 = Input
-  PORTB = (1 << PIN_INPUT);   // Pullup
+//DDRB  = (0 << PIN_INPUT);   // 0 = Input, not required to set
+//PORTB = (1 << PIN_INPUT);   // Pullup, optional, not needed in my case
 
   //--------Timer settings---------
   /*
