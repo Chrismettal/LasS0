@@ -37,7 +37,7 @@
 
 volatile uint8_t  EdgesFound;                   // Number of edges found since last flush (EdgesFound >= DIVIDER_RATIO)
 
-bool              testo;
+bool              Output;
 
 /*-------------------------------------------------------------------*/
 /*------------------------------ISR----------------------------------*/
@@ -83,16 +83,16 @@ int main() {
 /*-------------------------------------------------------------------*/
   while(1){
     // if enough pulses are found when timer flag is HIGH (Timer not already running)
-    if (/*(TIFR1 & (1 << OCF1A)) && */(EdgesFound >= DIVIDER_RATIO)) {
+    if ((TIFR1 & (1 << OCF1A)) && (EdgesFound >= DIVIDER_RATIO)) {
       EdgesFound      = 0;
-      testo != testo;
-      //TCNT1           = 0;    // reset timer value
-      //TIFR1 |= (1 << OCF1A);  // clear timer elapsed flag and therefore set S0 output
+      
+      TCNT1           = 0;    // reset timer value
+      TIFR1 |= (1 << OCF1A);  // clear timer elapsed flag and therefore set S0 output
     }
 
-    //Output TimerElapsedFlag directly. Will generate a single pulse at bootup until timer is elapsed once,
+    //Output TimerElapsedFlag via a buffer. Will generate a single pulse at bootup until timer is elapsed once,
     //but as long as the bit stays HIGH until we clear it manually, we should only output a pulse while timer is running and the flag is low
-    //PORTA = ((TIFR1 & (1<<OCF1A)) << PIN_OUTPUT);
-    PORTA = (testo << PIN_OUTPUT);
+    Output = (TIFR1 & (1 << OCF1A));
+    PORTA = (Output << PIN_OUTPUT);
   }// end while(1)
 }// end main
