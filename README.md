@@ -50,7 +50,9 @@ If you are connecting the S0 output to certain devices that require high logic l
 
 # Code
 
-- in progress
+To translate any type of input pulse to any type of output pulse an Attiny24a is used. The firmware is done in C but built in PlatformIO. The project can be found in the `Code/Platformio` folder.
+
+If you don't wanna compile yourself, there are several prebuild binaries for different configurations of input and output pulses. Find them in the `/Builds` directory.
 
 # Performance
 
