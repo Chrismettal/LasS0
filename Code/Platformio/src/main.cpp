@@ -37,6 +37,8 @@
 
 volatile uint8_t  EdgesFound;                   // Number of edges found since last flush (EdgesFound >= DIVIDER_RATIO)
 
+bool              testo;
+
 /*-------------------------------------------------------------------*/
 /*------------------------------ISR----------------------------------*/
 /*-------------------------------------------------------------------*/
@@ -68,8 +70,8 @@ int main() {
   30ms / 8 µs = 3750 ticks
   */
 
-  TCCR1B |= (1 << CS10) | (1 << CS11);      // set clock source /64 prescaler, starting timer
-  OCR1A  = OUTPUT_PULSE_LENGTH_mS / 0.008;  // set compare window to number of timer ticks required to hit OUTPUT_PULSE_LENGTH_mS
+  TCCR1B |= (1 << CS10) | (1 << CS11);        // set clock source /64 prescaler, starting timer
+  OCR1A   = OUTPUT_PULSE_LENGTH_mS / 0.008;   // set compare window to number of timer ticks required to hit OUTPUT_PULSE_LENGTH_mS
 
   //--------Interrupt attach---------
   GIMSK = (1 << INT0);                  // enable INT0 mask
@@ -81,15 +83,16 @@ int main() {
 /*-------------------------------------------------------------------*/
   while(1){
     // if enough pulses are found when timer flag is HIGH (Timer not already running)
-    if ((TIFR1 & (1<<OCF1A)) && (EdgesFound >= DIVIDER_RATIO)) {
+    if (/*(TIFR1 & (1 << OCF1A)) && */(EdgesFound >= DIVIDER_RATIO)) {
       EdgesFound      = 0;
-      
-      TCNT1           = 0;    // reset timer value
-      TIFR1 |= (1 << OCF1A);  // clear timer elapsed flag and therefore set S0 output HIGH
+      testo != testo;
+      //TCNT1           = 0;    // reset timer value
+      //TIFR1 |= (1 << OCF1A);  // clear timer elapsed flag and therefore set S0 output
     }
 
     //Output TimerElapsedFlag directly. Will generate a single pulse at bootup until timer is elapsed once,
     //but as long as the bit stays HIGH until we clear it manually, we should only output a pulse while timer is running and the flag is low
-    PORTA = ((TIFR1 & (1<<OCF1A)) << PIN_OUTPUT);
+    //PORTA = ((TIFR1 & (1<<OCF1A)) << PIN_OUTPUT);
+    PORTA = (testo << PIN_OUTPUT);
   }// end while(1)
 }// end main
