@@ -70,12 +70,12 @@ int main() {
   30ms / 8 µs = 3750 ticks
   */
 
-  TCCR1B |= (1 << CS10) | (1 << CS11);        // set clock source /64 prescaler, starting timer
-  OCR1A   = OUTPUT_PULSE_LENGTH_mS / 0.008;   // set compare window to number of timer ticks required to hit OUTPUT_PULSE_LENGTH_mS
+  TCCR1B  |= (1 << CS10) | (1 << CS11);       // set clock source /64 prescaler, starting timer
+  OCR1A    = OUTPUT_PULSE_LENGTH_mS / 0.008;  // set compare window to number of timer ticks required to hit OUTPUT_PULSE_LENGTH_mS
 
   //--------Interrupt attach---------
-  GIMSK = (1 << INT0);                  // enable INT0 mask
-  MCUCR = (1 << ISC00) | (1 << ISC01);  // enable INT0 rising edge detection
+  GIMSK   |= (1 << INT0);                     // enable INT0 mask
+  MCUCR   |= (1 << ISC00) | (1 << ISC01);     // enable INT0 rising edge detection
   sei();
 
 /*-------------------------------------------------------------------*/
