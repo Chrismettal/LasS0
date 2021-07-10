@@ -36,7 +36,6 @@
 /*-------------------------------------------------------------------*/
 
 volatile uint8_t  EdgesFound;                   // Number of edges found since last flush (EdgesFound >= DIVIDER_RATIO)
-
 bool              Output;                       // Output buffer to be shoved into the portpin
 
 /*-------------------------------------------------------------------*/
@@ -82,7 +81,8 @@ int main() {
   #else
     MCUCR   |= (1 << ISC01);                  // enable INT0 falling edge detection
   #endif
-  sei();
+
+  sei();                                      // enable all interrupts
 
 /*-------------------------------------------------------------------*/
 /*----------------------------while(1)-------------------------------*/

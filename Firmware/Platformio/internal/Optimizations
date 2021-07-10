@@ -9,3 +9,7 @@ Flash: [=         ]  14.0% (used 286 bytes from 2048 bytes)
 1927c5a - without Arduino, tiny_10, timer code, untested
 RAM:   [          ]   0.8% (used 1 bytes from 128 bytes)
 Flash: [=         ]   8.2% (used 168 bytes from 2048 bytes)
+
+b6edc7f - without Arduino, tiny_10_030_n_r, tested working
+RAM:   [          ]   0.8% (used 1 bytes from 128 bytes)
+Flash: [=         ]   8.3% (used 170 bytes from 2048 bytes)
