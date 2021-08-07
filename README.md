@@ -10,7 +10,11 @@
 - [Firmware](#firmware)
 - [Performance](#performance)
   - [New AVR version](#new-avr-version)
-  - [Old S8050 version](#old-s8050-version)
+    - [0-5V DC pulses, 10Hz, 10ms pulse length](#0-5v-dc-pulses-10hz-10ms-pulse-length)
+    - [Shortest stable input pulse - 150ns](#shortest-stable-input-pulse---150ns)
+    - [Rise time / delay 100µs](#rise-time--delay-100µs)
+    - [5_10_i_r firmware example](#5_10_i_r-firmware-example)
+  - [Old S8050 / FET version](#old-s8050--fet-version)
     - [0-5V DC pulses, 50Hz, 5ms pulse length](#0-5v-dc-pulses-50hz-5ms-pulse-length)
     - [Rise time 33µs, Fall time 1µs](#rise-time-33µs-fall-time-1µs)
     - [Switch on delay 66µs](#switch-on-delay-66µs)
@@ -30,8 +34,6 @@ Keep an eye out on the Tindie store, where leftover boards will be sold!
 This is a logic level impulse to S0 converter/interface board. It is used to convert 5v logic level impulses to an S0 compatible format to use sensors like the TCRT5000 reflective optical sensor in existing smart home systems, that usually use 12v or 24v levels for digital inputs. This can be used to read out old school electrical meters as well as modern smart meters that only offer optical IR impulses or a spinning disc to "display" the current power usage.
 
 ![BoardReal](img/Board.jpg)
-
-![BoardRealKit](img/BoardKit.jpg)
 
 There are 'two versions' of the board included. LasS0_FET uses a FET input stage. The included gerbers are NOT tested and probably won't be. The initial NPN input stage version however was ordered and tested working.
 The other, more recent version uses an AVR microcontroller as the input stage, specifically providing pulse extension and pulse division between the input and the S0 output. This was neccessary for me since my electricity meter outputs 10,000 imp/kWh with only a pulselength of about 7ms, which my smart home controller could not read. It required pulses of at least 15ms to reliably detect every pulse. The AVR counts a set number of input pulses and outputs a fixed output pulse once enough inputs have been counted. In my case I divide 10:1 and output a 30ms pulse after every 10 input pulses, changing the total resolution of my specific meter to 1,000 imp/kwh.
@@ -77,11 +79,41 @@ The firmware is uploaded via `ICSP`.
 The device was tested, on a 23 V supply with 5 V test pulses from a function gen as well as the TCRT5000.
 ## New AVR version
 
+This version uses the high input impedance of the ATTINY inputs, reducing required input current significantly, not loading your input sensor at all. The following measurements / demonstrations were done with the `AVR` board, PCB version 788734e, with the `S0+ - PU_VCC` and `S0- - GND` jumpers set, setting a pullup to `SO+` and connecting `S0-` to ground. `Channel 1` is the function gen output, `Channel 2` is measuring the pulled up `S0+`. 
 
+The firmware version used is 1_10_n_r, outputting a 10ms non-inverted output pulse for every rising edge on the input.
 
-## Old S8050 version
+### 0-5V DC pulses, 10Hz, 10ms pulse length
 
-The version that was tested needs around 6mA of current on the DO input to drive the input stage. My TCRT5000 module is only able to deliver about 1mA somehow so the channel 1 voltage with the TCRT5000 drops significantly but the output is still fully driven. Currently ordering some new TCRT5000 to see why the comparator can only drive such low currents. At the same time I will switch out the S8050 transistors to AO3400A MOSFETs to greatly raise the input impedance of DO. 
+10ms input pulses being translated to 10ms output pulses, just shifting levels.
+
+![10msStacked](img/scope_10msStacked.png)
+
+### Shortest stable input pulse - 150ns
+
+The shortest input pulse that is stable to detect is about 150ns long at 5V. The device still outputs a 10ms output pulse.
+
+![150nsPulse](img/scope_150nsPulse.png)
+
+![150ns10ms](img/scope_150ns-10ms.png)
+
+### Rise time / delay 100µs
+
+Looking only at the switch on time the device needs about 100µs to fully switch on the output after detecting a rising edge on the input.
+
+![Rise100](img/scope_Rise.png)
+
+### 5_10_i_r firmware example
+
+The following screenshot is a demonstration of the 5_10_i_r firmware, outputting a 10ms inverted output pulse for every 5 edges on the input.
+
+![5_10_i_r](img/scope_5_10_i_r.png)
+
+## Old S8050 / FET version
+
+The version that was tested needs around 6mA of current on the DO input to drive the input stage. My TCRT5000 module is only able to deliver about 1mA somehow so the channel 1 voltage with the TCRT5000 drops significantly but the output is still fully driven. Currently ordering some new TCRT5000 to see why the comparator can only drive such low currents. 
+
+The same measurements have been done with the FET version using AO34000A MOSFETs, removing the high input current but otherwise providing almost identical outputs (mostly limited by the output optocoupler, which explains the similar results).
 
 The following measurements / demonstrations were done with the S8050 input stage, PCB revision 38b7723, with the S0 pullup jumpers set:
 
