@@ -41,6 +41,8 @@ The other, more recent version uses an AVR microcontroller as the input stage, s
 
 The AVR board additionaly breaks out all unused portpins to pinheaders as well as the AO screw terminal so you could theoretically read out the analog value of a TCRT5000 as well.
 
+![Schematic](img/Schematic.png)
+
 # Usage
 
 The device needs to be powered through `J1` with 12-24v.
