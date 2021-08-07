@@ -7,6 +7,7 @@
 - [Buying](#buying)
 - [What is this?](#what-is-this)
 - [Usage](#usage)
+  - [Jumpers:](#jumpers)
 - [Firmware](#firmware)
 - [Performance](#performance)
   - [New AVR version](#new-avr-version)
@@ -25,7 +26,7 @@
 
 # Buying
 
-Keep an eye out on the Tindie store, where leftover boards will be sold!
+Keep an eye out on the Tindie store, where leftover boards will be sold and are currently awaiting approval!
 
 <a href="https://www.tindie.com/stores/binary-6/?ref=offsite_badges&utm_source=sellers_Chrismettal&utm_medium=badges&utm_campaign=badge_medium"><img src="https://d2ss6ovg47m0r5.cloudfront.net/badges/tindie-mediums.png" alt="I sell on Tindie" width="150" height="78"></a>
 
@@ -48,7 +49,16 @@ One of the upper jumpers needs to be set to choose between `Direct` and `Inverte
 
 A 5v logic level impulse input such as the output of a TCRT5000 can be connected to `J3/J4` at `D0`, which is then output to `J2` as an `S0` compatible open collector signal through the optocoupler.
 
-If you are connecting the S0 output to certain devices that require high logic level input like 12v and can't directly deal with open collector S0 outputs, you might choose to set the lower two jumpers to put a pullup to `VCC` on `S0+` and connect `GND` to `S0-`. Combined with the `Inverted` output you will get your input pulses converted to VCC output pulses. (This is required for Loxone inputs for example, which is what I am using this for).
+## Jumpers:
+
+The following jumpers need to be configured to your usecase. Without setting anything, you will get an open S0 output without any pullup/downs on the inputs or outputs.
+
+- `S0+ - VCC` - connects `S0+` to `VCC`, allowing VCC pulses to be output on `S0-`
+- `S0+ - PU_VCC` - connects `S0+` to `VCC` via a 10K pullup.
+- `S0- - GND` - connects `S0-` to `GND`,  can be used with `S0+ - PU_VCC` to have 24 V logic pulses on `S0+`, which is how I use it for Loxone inputs
+- `D0-PD_GND` - connects a 10K pulldown to the D0 input. The AVR only has included pullups on the input port so if your application needs a pulldown it can be enabled on the board. Pullups can be enabled in firmware.
+
+Additionally `PA1`, `PA3`, `PA7` as well as `5V` and `GND` are broken out to pin headers, the `ICSP` port is fully exposed to pin headers, and `PA0` is exposed to the `A0` screw terminal, enabling analog inputs as well.
 
 # Firmware
 
