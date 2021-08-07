@@ -1,7 +1,5 @@
 # LasS0 <!-- omit in toc -->
 
-![BoardRender](img/Nice.png)
-
 # Contents <!-- omit in toc -->
 
 - [Buying](#buying)
@@ -40,6 +38,10 @@ There are 'two versions' of the board included. LasS0_FET uses a FET input stage
 The other, more recent version uses an AVR microcontroller as the input stage, specifically providing pulse extension and pulse division between the input and the S0 output. This was neccessary for me since my electricity meter outputs 10,000 imp/kWh with only a pulselength of about 7ms, which my smart home controller could not read. It required pulses of at least 15ms to reliably detect every pulse. The AVR counts a set number of input pulses and outputs a fixed output pulse once enough inputs have been counted. In my case I divide 10:1 and output a 30ms pulse after every 10 input pulses, changing the total resolution of my specific meter to 1,000 imp/kwh.
 
 The AVR board additionaly breaks out all unused portpins to pinheaders as well as the AO screw terminal so you could theoretically read out the analog value of a TCRT5000 as well.
+
+If you like my work please consider supporting my caffeine addiction!
+
+<a href='https://ko-fi.com/U7U6G0X3' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi4.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
 ![Schematic](img/Schematic.png)
 
