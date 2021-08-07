@@ -2,10 +2,6 @@
 
 ![BoardRender](img/Nice.png)
 
-# WARNING <!-- omit in toc -->
-
-The current version of the PCB is tested working, but uses an BJT input stage which takes around 6mA to drive. The device was tested with a FET input stage and optional pullups/pulldowns on the input which does not require such a high driving current and therefor performs better with TCRT5000 modules. The PCB files are currently being updated with the new input stage.
-
 # Contents <!-- omit in toc -->
 
 - [Buying](#buying)
@@ -13,6 +9,8 @@ The current version of the PCB is tested working, but uses an BJT input stage wh
 - [Usage](#usage)
 - [Firmware](#firmware)
 - [Performance](#performance)
+  - [New AVR version](#new-avr-version)
+  - [Old S8050 version](#old-s8050-version)
     - [0-5V DC pulses, 50Hz, 5ms pulse length](#0-5v-dc-pulses-50hz-5ms-pulse-length)
     - [Rise time 33µs, Fall time 1µs](#rise-time-33µs-fall-time-1µs)
     - [Switch on delay 66µs](#switch-on-delay-66µs)
@@ -77,6 +75,11 @@ The firmware is uploaded via `ICSP`.
 ![MeasurementMethod](img/CRO.jpg)
 
 The device was tested, on a 23 V supply with 5 V test pulses from a function gen as well as the TCRT5000.
+## New AVR version
+
+
+
+## Old S8050 version
 
 The version that was tested needs around 6mA of current on the DO input to drive the input stage. My TCRT5000 module is only able to deliver about 1mA somehow so the channel 1 voltage with the TCRT5000 drops significantly but the output is still fully driven. Currently ordering some new TCRT5000 to see why the comparator can only drive such low currents. At the same time I will switch out the S8050 transistors to AO3400A MOSFETs to greatly raise the input impedance of DO. 
 
@@ -84,27 +87,27 @@ The following measurements / demonstrations were done with the S8050 input stage
 
 ### 0-5V DC pulses, 50Hz, 5ms pulse length
 
-![5msPulse](img/5msPulse.png)
+![5msPulse](img/S8050/5msPulse.png)
 
 ### Rise time 33µs, Fall time 1µs
 
-![RiseFall](img/RiseFall.png)
+![RiseFall](img/S8050/RiseFall.png)
 
 ### Switch on delay 66µs
 
-![DelayRise](img/DelayRise.png)
+![DelayRise](img/S8050/DelayRise.png)
 
 ### Switch off delay 5µs
 
-![DelayFall](img/DelayFall.png)
+![DelayFall](img/S8050/DelayFall.png)
 
 ### TCRCT5000 with "normal" non inverted configuration
 
-![Normal](img/TCRT5000Normal.png)
+![Normal](img/S8050/TCRT5000Normal.png)
 
 ### TCRCT5000 with "inverted" configuration
 
-![Inverted](img/TCRT5000Inverted.png)
+![Inverted](img/S8050/TCRT5000Inverted.png)
 
 # 3D printing
 
