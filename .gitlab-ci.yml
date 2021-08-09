@@ -3,7 +3,7 @@ stages:
 
 Thingideploy:
   stage: deploy
-  image: "alpine:3.14"
+  image: "ruby:2.6"
   script:
     - git clone https://gitlab.com/chrismettal/LasS0
   when: manual
