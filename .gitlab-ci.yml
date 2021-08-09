@@ -1,0 +1,9 @@
+stages:
+  - deploy
+
+Thingideploy:
+  stage: deploy
+  image: "alpine:3.14"
+  script:
+    - git clone https://gitlab.com/chrismettal/LasS0
+  when: manual
