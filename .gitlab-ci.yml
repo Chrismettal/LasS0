@@ -6,8 +6,8 @@ Thingideploy:
   image: "python:3.9.6-buster"
   script:
     - git clone https://gitlab.com/chrismettal/thingideploy
-    - python -m venv ./venv
-    - source env/bin/activate
+    - python -m venv .venv
+    - source .venv/bin/activate
     - cd thingideploy
     - pip install -r requirements.txt
     - pip freeze
