@@ -5,5 +5,9 @@ Thingideploy:
   stage: deploy
   image: "ruby:2.6"
   script:
-    - git clone https://gitlab.com/chrismettal/LasS0
+    - git clone https://gitlab.com/chrismettal/thingideploy
+    - ls
+    - cd thingideploy
+    - pip install -r requirements.txt
+    - ./thingideploy.py 
   when: manual
