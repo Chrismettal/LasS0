@@ -10,6 +10,8 @@ Thingideploy:
     - cd thingideploy
     - pip install -r requirements.txt
     - pip install requests
+    - pip freeze
     - cd ..
+    - pip freeze
     - ./thingideploy/thingideploy.py "$CI_PROJECT_DIR"/3d_printing/DIN_rail_case/ --deploy-project="$API_KEY"
   when: manual
