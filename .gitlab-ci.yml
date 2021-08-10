@@ -1,12 +1,14 @@
 stages:
   - deploy
 
-Thingideploy:
+thingideploy:
   stage: deploy
   image: "python:3.9.6-buster"
   script:
-    - git clone https://gitlab.com/chrismettal/thingideploy
+    - git clone https://gitlab.com/chrismettal/thingideploy.git
     - cd thingideploy
     - pip install -r requirements.txt
     - python3 ./thingideploy.py "$CI_PROJECT_DIR"/3d_printing/DIN_rail_case/ --deploy-project="$API_KEY"
-  when: manual
+  rules:
+    - changes:
+        - 3d_printing/*
