@@ -3,7 +3,7 @@ stages:
 
 Thingideploy:
   stage: deploy
-  image: "python:3.9.6-alpine3.14"
+  image: "python:3.9.6-buster"
   script:
     - git clone https://gitlab.com/chrismettal/thingideploy
     - cd thingideploy
