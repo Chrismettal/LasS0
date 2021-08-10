@@ -5,6 +5,6 @@ thingideploy:
     - cd thingideploy
     - pip install -r requirements.txt
     - python3 ./thingideploy.py "$CI_PROJECT_DIR"/3d_printing/DIN_rail_case/ --deploy-project="$API_KEY"
-  rules:
+  only:
     - changes:
         - 3d_printing/**
