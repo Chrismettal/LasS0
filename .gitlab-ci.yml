@@ -7,4 +7,4 @@ thingideploy:
     - python3 ./thingideploy.py "$CI_PROJECT_DIR"/3d_printing/DIN_rail_case/ --deploy-project="$API_KEY"
   rules:
     - changes:
-        - 3d_printing/*
+        - 3d_printing/**
