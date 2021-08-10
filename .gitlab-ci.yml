@@ -3,11 +3,11 @@ stages:
 
 Thingideploy:
   stage: deploy
-  image: "ruby:2.6"
+  image: "python:3.9.6-alpine3.14"
   script:
     - git clone https://gitlab.com/chrismettal/thingideploy
-    - ls
     - cd thingideploy
     - pip install -r requirements.txt
-    - ./thingideploy.py 
+    - cd ..
+    - ./thingideploy/thingideploy.py "$CI_PROJECT_DIR" --deploy-project="$API_KEY"
   when: manual
