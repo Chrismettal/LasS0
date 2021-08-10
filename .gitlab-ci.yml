@@ -9,5 +9,5 @@ Thingideploy:
     - cd thingideploy
     - pip install -r requirements.txt
     - cd ..
-    - ./thingideploy/thingideploy.py "$CI_PROJECT_DIR" --deploy-project="$API_KEY"
+    - ./thingideploy/thingideploy.py "$CI_PROJECT_DIR"/3d_printing/DIN_rail_case/ --deploy-project="$API_KEY"
   when: manual
