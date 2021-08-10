@@ -5,13 +5,11 @@ Thingideploy:
   stage: deploy
   image: "python:3.9.6-buster"
   script:
-    - python --version
     - git clone https://gitlab.com/chrismettal/thingideploy
+    - python -m venv ./venv
+    - source env/bin/activate
     - cd thingideploy
     - pip install -r requirements.txt
-    - pip install requests
-    - pip freeze
-    - cd ..
     - pip freeze
     - ./thingideploy/thingideploy.py "$CI_PROJECT_DIR"/3d_printing/DIN_rail_case/ --deploy-project="$API_KEY"
   when: manual
