@@ -1,4 +1,8 @@
+stages:
+  - deploy
+
 thingideploy:
+  stage: deploy
   image: "python:3.9.6-buster"
   script:
     - git clone https://gitlab.com/chrismettal/thingideploy.git
@@ -7,4 +11,5 @@ thingideploy:
     - python3 ./thingideploy.py "$CI_PROJECT_DIR"/3d_printing/DIN_rail_case/ --deploy-project="$API_KEY"
   only:
     changes:
-      - 3d_printing/**
+      - 3d_printing/DIN_rail_case/**/*
+      - 3d_printing/DIN_rail_case/*
