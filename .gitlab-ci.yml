@@ -8,7 +8,7 @@ thingideploy:
     - git clone https://gitlab.com/chrismettal/thingideploy.git
     - cd thingideploy
     - pip install -r requirements.txt
-    - python3 ./thingideploy.py "$CI_PROJECT_DIR"/3d_printing/DIN_rail_case/ --deploy-project="$API_KEY"
+    - python3 ./thingideploy.py --deploy-project="$API_KEY" --path="$CI_PROJECT_DIR"/3d_printing/DIN_rail_case/
   only:
     changes:
       - 3d_printing/DIN_rail_case/**/*
