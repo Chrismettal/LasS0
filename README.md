@@ -163,6 +163,6 @@ There is a 3D printable DIN rail case for the LasS0 PCB itself, as well as a rea
 
 The case incorporates DIN rail clamps, remixed from a cable clamp by mdkendall, [check it out here!](https://www.thingiverse.com/thing:2613804).
 
-![3DCase](3d_printing/DIN_rail_case/img/3D.png)
+![3DCase](3d_printing/DIN_rail_case/img/01-3D.png)
 
 ![3DHead](3d_printing/EMH_eHZ_readhead/img/3Dhead.png)
