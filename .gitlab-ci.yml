@@ -5,8 +5,8 @@ deploy_thingiverse:
   stage: deploy
   image: "python:3.9.6-buster"
   script:
-    - pip install threedeploy
-    - threedeploy --deploy-project="$API_KEY" --path="$CI_PROJECT_DIR"/3d_printing/DIN_rail_case/
+    - pip install threedeploy --upgrade
+    - threedeploy --deploy-project-thingiverse="$API_KEY" --path="$CI_PROJECT_DIR"/3d_printing/DIN_rail_case/
   artifacts:
     paths:
       - $CI_PROJECT_DIR/3d_printing/DIN_rail_case/CreationResponse.json
