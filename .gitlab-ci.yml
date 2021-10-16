@@ -5,10 +5,8 @@ thingideploy:
   stage: deploy
   image: "python:3.9.6-buster"
   script:
-    - git clone https://gitlab.com/chrismettal/thingideploy.git
-    - cd thingideploy
-    - pip install -r requirements.txt
-    - python3 ./thingideploy.py --deploy-project="$API_KEY" --path="$CI_PROJECT_DIR"/3d_printing/DIN_rail_case/
+    - pip install threedeploy
+    - threedeploy --deploy-project="$API_KEY" --path="$CI_PROJECT_DIR"/3d_printing/DIN_rail_case/
   artifacts:
     paths:
       - $CI_PROJECT_DIR/3d_printing/DIN_rail_case/CreationResponse.json

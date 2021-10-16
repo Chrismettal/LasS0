@@ -24,7 +24,7 @@
 
 # Buying
 
-Keep an eye out on the Tindie store, where leftover boards will be sold and are currently awaiting approval!
+Keep an eye out on the Tindie store, where leftover boards will be sold!
 
 <a href="https://www.tindie.com/stores/binary-6/?ref=offsite_badges&utm_source=sellers_Chrismettal&utm_medium=badges&utm_campaign=badge_medium"><img src="https://d2ss6ovg47m0r5.cloudfront.net/badges/tindie-mediums.png" alt="I sell on Tindie" width="150" height="78"></a>
 
