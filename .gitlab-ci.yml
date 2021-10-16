@@ -1,7 +1,7 @@
 stages:
   - deploy
 
-thingideploy:
+deploy_thingiverse:
   stage: deploy
   image: "python:3.9.6-buster"
   script:
