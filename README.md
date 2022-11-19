@@ -12,7 +12,7 @@
     - [0-5V DC pulses, 10Hz, 10ms pulse length](#0-5v-dc-pulses-10hz-10ms-pulse-length)
     - [Shortest stable input pulse - 150ns](#shortest-stable-input-pulse---150ns)
     - [Rise time / delay 100µs](#rise-time--delay-100µs)
-    - [5_10_i_r firmware example](#5_10_i_r-firmware-example)
+    - [5\_10\_i\_r firmware example](#5_10_i_r-firmware-example)
   - [Old S8050 / FET version](#old-s8050--fet-version)
     - [0-5V DC pulses, 50Hz, 5ms pulse length](#0-5v-dc-pulses-50hz-5ms-pulse-length)
     - [Rise time 33µs, Fall time 1µs](#rise-time-33µs-fall-time-1µs)
@@ -28,9 +28,7 @@ Keep an eye out on the Tindie store, where leftover boards will be sold!
 
 <a href="https://www.tindie.com/stores/binary-6/?ref=offsite_badges&utm_source=sellers_Chrismettal&utm_medium=badges&utm_campaign=badge_medium"><img src="https://d2ss6ovg47m0r5.cloudfront.net/badges/tindie-mediums.png" alt="I sell on Tindie" width="150" height="78"></a>
 
-If you like my work please consider supporting my caffeine addiction!
-
-<a href='https://ko-fi.com/U7U6G0X3' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi4.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+**If you like my work please consider [supporting my caffeine addiction](https://gitlab.com/Chrismettal#donations)!**
 
 # What is this?
 
